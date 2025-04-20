@@ -46,7 +46,8 @@ int main()
                 respond(*request);
             }
         });
-    cluster.start(dpp::st_return); // Start the bot in blocking mode
+
+    cluster.start(dpp::st_return); // Start the web server in a separate thread
     bot.on_slashcommand([](const dpp::slashcommand_t &event)
                         {
         if (event.command.get_command_name() == "ping") {
