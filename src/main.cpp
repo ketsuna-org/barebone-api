@@ -1,5 +1,4 @@
 #include <dpp/dpp.h>
-
 const std::string BOT_TOKEN = getenv("BOT_TOKEN");
 
 class my_http_server_request : public dpp::http_server_request {
@@ -8,11 +7,12 @@ public:
     [[nodiscard]] std::string get_method() const noexcept { return request_type; }
 };
 
-void handle_request(dpp::http_server_request& req, const std::string_view& content) {
+void handle_request(dpp::http_server_request& req, const std::string_view& content, const std::string_view& content_type = "text/html") {
     req.set_status(200)
-       .set_response_header("Content-Type", "text/html")
+       .set_response_header("Content-Type", content_type.data())
        .set_response_body(content.data());
 }
+using json = nlohmann::json;
 
 int main() {
     dpp::cluster bot(BOT_TOKEN);
@@ -22,7 +22,7 @@ int main() {
 
         if (req->get_method() == "GET") {
             if (req->get_path() == "/hello") {
-                handle_request(*req, "<h1>Helo world</h1>");
+                handle_request(*req, json::object({{"message", "Hello, world!"}}).dump(), "application/json");
                 return;
             }
         }
