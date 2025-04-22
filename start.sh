@@ -3,7 +3,10 @@ cmake -B build \
     -DCMAKE_EXE_LINKER_FLAGS="-Wl,--rpath=/usr/lib/x86_64-linux-gnu" \
     -DCMAKE_PREFIX_PATH="/usr;/usr/lib/x86_64-linux-gnu" \
     -DCMAKE_LIBRARY_PATH="/usr/lib/x86_64-linux-gnu" \
-    -DCMAKE_CXX_FLAGS="-isystem /usr/include -isystem /usr/include/c++/13"
+    -DCMAKE_CXX_FLAGS="-isystem /usr/include -isystem /usr/include/c++/13" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON
+
 
   # Compiler en parallèle avec vérification
   if cmake --build build -j$(nproc); then
